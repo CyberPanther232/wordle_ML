@@ -1,3 +1,11 @@
+"""
+Program: prob_functions
+Date Created: 24-Jun-2024
+Last Modified: 28-Jun-2024
+Purpose: To provide probability results for increasing wordle bot guessing algorithms
+Developer: Hunter Kinney
+"""
+
 import random
 
 def display_word(word) -> list:
@@ -23,6 +31,22 @@ def load_words(wordlist_filepath) -> list:
             
     return wordlist
 
+def find_best_guess(potential_words):
+    """
+    Find the best guess based on maximum entropy.
+    
+    Parameters:
+    potential_words (list of str): The list of possible target words.
+    
+    Returns:
+    str: The best guess.
+    """
+    entropy_values = {word: calculate_entropy_for_word(word, potential_words) for word in potential_words}
+    return max(entropy_values, key=entropy_values.get)
+
+# Example usage
+best_guess = find_best_guess(potential_words)
+print(f"Best guess based on entropy: {best_guess}")
 
 def main():
     

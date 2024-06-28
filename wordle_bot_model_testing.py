@@ -1,3 +1,11 @@
+"""
+Program: wordle_bot_model_testing
+Date Created: 24-Jun-2024
+Last Modified: 28-Jun-2024
+Purpose: To evaluate the current and potential algorithm/model guessing effectiveness. It also can provide the statistics and will write the model test output to a report file.
+Developer: Hunter Kinney
+"""
+
 from collections import Counter
 from wordle_funcs import load_words
 from wordle_bot_filters import *

@@ -1,3 +1,11 @@
+"""
+Program: wordle_bot
+Date Created: 24-Jun-2024
+Last Modified: 28-Jun-2024
+Purpose: To provide an accurate model to help those who want to play wordle but want to take it easy
+Developer: Hunter Kinney
+"""
+
 from collections import Counter
 from wordle_funcs import load_words
 from wordle_bot_filters import *
