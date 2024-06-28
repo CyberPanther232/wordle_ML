@@ -6,6 +6,7 @@ Purpose: To provide probability results for increasing wordle bot guessing algor
 Developer: Hunter Kinney
 """
 from wordle_funcs import load_words
+from collections import Counter
 import math
 
 # wordle_list = load_words("smaller_wordlist.txt")
@@ -38,76 +39,97 @@ def information_content_w_prob(I, word_list) -> float:
     num_of_occurrences = round((1 / (2 ** I)) * num_of_words,0)
     
     return num_of_occurrences
-                    
-def probability_of_word(wordlist_path):
-    
-    word_list = load_words(wordlist_path)
-    
-    words = {}
-    
-    for word in word_list:
-        
-        if word not in words:
-            words.update({word : 1})
-        
-        elif word in words:
-            words[word] += 1
-            
-    return words
 
+import math
 from collections import Counter
 
-def calculate_entropy_for_word(guess, potential_words):
+def entropy(probabilities):
     """
-    Calculate the entropy for a given guess based on the list of potential words.
+    Calculate the entropy of a distribution for given probabilities.
     
     Parameters:
-    guess (str): The word to guess.
+    probabilities (list of float): A list of probabilities.
+    
+    Returns:
+    float: The entropy value.
+    """
+    return -sum(p * math.log2(p) for p in probabilities if p > 0)
+
+def calculate_entropy_from_feedback(feedback_data, potential_words):
+    """
+    Calculate the entropy for all possible words based on manual feedback.
+    
+    Parameters:
+    feedback_data (list of tuples): A list of tuples where each tuple contains
+                                    (guess, feedback) with feedback being a string of 'g', 'y', 'b'.
     potential_words (list of str): The list of possible target words.
     
     Returns:
-    float: The entropy value for the guess.
+    dict: A dictionary with words as keys and their entropy values as values.
     """
-    # Simulate feedback for the guess
-    feedback_patterns = [get_feedback(guess, target) for target in potential_words]
+    pattern_counts = Counter()
     
-    # Count the frequency of each feedback pattern
-    pattern_counts = Counter(feedback_patterns)
-    
-    # Calculate probabilities of each pattern
-    total_patterns = len(feedback_patterns)
-    probabilities = [count / total_patterns for count in pattern_counts.values()]
-    
-    # Calculate entropy
-    return entropy(probabilities)
+    for guess, feedback in feedback_data:
+        for word in potential_words:
+            if matches_feedback(guess, feedback, word):
+                pattern_counts[word] += 1
 
-def get_feedback(guess, target):
+    total_patterns = len(potential_words)
+    probabilities = {word: pattern_counts[word] / total_patterns for word in potential_words}
+    
+    # Ensure all words have an entry in the probabilities dictionary
+    entropies = {word: entropy([probabilities[word]]) for word in potential_words}
+    return entropies
+
+def matches_feedback(guess, feedback, target):
     """
-    Simulate feedback for a guess given a target word.
-    Returns a tuple representing the pattern (green, yellow, gray).
+    Check if a target word matches the given feedback for a guess.
     
     Parameters:
     guess (str): The guessed word.
+    feedback (str): The feedback string ('g', 'y', 'b').
     target (str): The target word.
     
     Returns:
-    tuple: The feedback pattern.
+    bool: True if the target matches the feedback, False otherwise.
     """
-    feedback = []
-    for g, t in zip(guess, target):
-        if g == t:
-            feedback.append('green')
-        elif g in target:
-            feedback.append('yellow')
-        else:
-            feedback.append('gray')
-    return tuple(feedback)
+    for g, f, t in zip(guess, feedback, target):
+        if f == 'g' and g != t:
+            return False
+        if f == 'y' and (g == t or g not in target):
+            return False
+        if f == 'b' and g in target:
+            return False
+    return True
+
+def find_best_guess_from_feedback(feedback_data, potential_words):
+    """
+    Find the best guess based on entropy calculated from manual feedback.
+    
+    Parameters:
+    feedback_data (list of tuples): A list of tuples where each tuple contains
+                                    (guess, feedback) with feedback being a string of 'g', 'y', 'b'.
+    potential_words (list of str): The list of possible target words.
+    
+    Returns:
+    str: The best guess based on entropy.
+    """
+    entropies = calculate_entropy_from_feedback(feedback_data, potential_words)
+    
+    max_entropies = max(entropies, key=entropies.get)
+    print(max_entropies)
+    return max_entropies
 
 # Example usage
-potential_words = ["apple", "banjo", "carol", "dogma", "eagle"]
-guess = "apple"
-entropy_value = calculate_entropy_for_word(guess, potential_words)
-print(f"Entropy for guess '{guess}': {entropy_value}")
+potential_words = ["order", "knead", "savor", "sword"]
+feedback_data = [
+    ("apple", "bbbyb"),  # 'a' is not in the word, 'p' is correct and in the right position
+    ("banjo", "bbbby"),  # 'a' is not in the word, 'n' is in the word but not in the correct position
+]
+
+best_guess = find_best_guess_from_feedback(feedback_data, potential_words)
+print(f"Best guess based on entropy: {best_guess}")
+
 
   
     

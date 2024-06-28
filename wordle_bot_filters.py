@@ -1,3 +1,11 @@
+"""
+Program: wordle_bot
+Date Created: 24-Jun-2024
+Last Modified: 28-Jun-2024
+Purpose: To filter out words in wordlist to improve bot guessing success
+Developer: Hunter Kinney
+"""
+
 import random
 from prob_functions import probability_of_letter
 

@@ -9,7 +9,7 @@ Developer: Hunter Kinney
 from collections import Counter
 from wordle_funcs import load_words
 from wordle_bot_filters import *
-from prob_functions import probability_of_letter
+from prob_functions import *
 import time
 from datetime import datetime
 
@@ -39,6 +39,8 @@ def main():
     word_list = filter_recent_words(word_list, recent_word_list, DAYS)
 
     guess = first_guess_filter(word_list, NUM_OF_LETTERS)
+    
+    feedback_data = []
 
     while count < 7:
         print(guess)
@@ -74,14 +76,16 @@ def main():
 
         # Sort words by their scores and get the top five
         sorted_words = sorted(word_scores.items(), key=lambda item: item[1], reverse=True)
-        top_words = sorted_words[:5]
+        top_words = sorted_words[:10]
 
         # Update word_list for the next iteration
         word_list = filtered_word_list
 
         count += 1
         
-        guess = top_words[0][0]
+        feedback_data.append((guess, feedback))
+        
+        guess = find_best_guess_from_feedback(feedback_data, top_words)
         
     print("Thank you for using Hunter's Wordle bot!")
     
