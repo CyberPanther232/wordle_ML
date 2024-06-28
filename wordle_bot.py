@@ -13,8 +13,8 @@ from datetime import datetime
 # Model Parameters
 DAYS = 150
 NUM_OF_LETTERS = 7
-POSS_SOLUTIONS_LIST = r'.\wordlists\smaller_wordlist.txt'
-RECENT_WORDS_LIST = r'.\wordlists\prior_wordle_list_chrono.txt'
+POSS_SOLUTIONS_LIST = r'wordlists/smaller_wordlist.txt'
+RECENT_WORDS_LIST = r'wordlists/prior_wordle_list_chrono.txt'
 
 # Score each word based on letter frequencies
 def score_word(word, frequencies) -> list:

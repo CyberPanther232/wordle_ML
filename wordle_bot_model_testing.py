@@ -8,8 +8,8 @@ import statistics as stats
 # Model Parameters
 DAYS = 1
 NUM_OF_LETTERS = 1
-POSS_SOLUTIONS_LIST = r'.\wordlists\smaller_wordlist.txt'
-RECENT_WORDS_LIST = r'.\wordlists\prior_wordle_list_chrono.txt'
+POSS_SOLUTIONS_LIST = r'wordlists\smaller_wordlist.txt'
+RECENT_WORDS_LIST = r'wordlists\prior_wordle_list_chrono.txt'
 
 # Model Evaluation Parameters
 REPORT_NAME = 'overall_report.txt'
