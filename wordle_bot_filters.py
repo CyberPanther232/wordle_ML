@@ -16,6 +16,7 @@ from prob_functions import probability_of_letter
             
 #     return word_list
 
+# Algorithm used to guess the first word in the guessing system
 def first_guess_filter(wordlist, num_of_letters) -> list:
     alphabet = [
     'a', 'b', 'c', 'd', 'e',
@@ -45,6 +46,7 @@ def first_guess_filter(wordlist, num_of_letters) -> list:
 
     return random.choice(first_word_wordlist)
 
+# Filters recent solution words from previous wordle games
 def filter_recent_words(word_list, recent_list, days_passed) -> list:
     
     recent_list = recent_list[:days_passed]

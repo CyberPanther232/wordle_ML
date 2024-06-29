@@ -7,7 +7,7 @@ Developer: Hunter Kinney
 """
 
 from collections import Counter
-from wordle_funcs import load_words
+from wordle_funcs import load_words, score_word
 from wordle_bot_filters import *
 from prob_functions import *
 import time
@@ -21,12 +21,9 @@ from datetime import datetime
 # Model Parameters
 DAYS = 150
 NUM_OF_LETTERS = 7
+TOP_LETTERS = 3
 POSS_SOLUTIONS_LIST = r'wordlists/smaller_wordlist.txt'
 RECENT_WORDS_LIST = r'wordlists/prior_wordle_list_chrono.txt'
-
-# Score each word based on letter frequencies
-def score_word(word, frequencies) -> list:
-    return sum(frequencies.get(letter, 0) for letter in word)
 
 def main():
     print("Welcome to Hunter's Wordle bot!\nI will guess a word and you provide the feedback!")
@@ -76,7 +73,7 @@ def main():
 
         # Sort words by their scores and get the top five
         sorted_words = sorted(word_scores.items(), key=lambda item: item[1], reverse=True)
-        top_words = sorted_words[:10]
+        top_words = sorted_words[:TOP_LETTERS]
 
         # Update word_list for the next iteration
         word_list = filtered_word_list

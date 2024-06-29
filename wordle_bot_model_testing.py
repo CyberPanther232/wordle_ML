@@ -7,21 +7,22 @@ Developer: Hunter Kinney
 """
 
 from collections import Counter
-from wordle_funcs import load_words
+from wordle_funcs import load_words, score_word, wordle_feedback
 from wordle_bot_filters import *
-from prob_functions import probability_of_letter
+from prob_functions import *
 import time
 import statistics as stats
 
 # Model Parameters
 DAYS = 1
 NUM_OF_LETTERS = 1
+TOP_LETTERS = 3
 POSS_SOLUTIONS_LIST = r'wordlists\smaller_wordlist.txt'
 RECENT_WORDS_LIST = r'wordlists\prior_wordle_list_chrono.txt'
 
 # Model Evaluation Parameters
 REPORT_NAME = 'overall_report.txt'
-TARGET_WORD = 'order'
+TARGET_WORD = 'drove'
 
 def find_best_model(days, letters, report_name, attempts, target, iterations, save_all_results=False) -> None:
     
@@ -73,34 +74,12 @@ def write_automated_report(word, attempt_number, guess_number, report_title, num
     with open(report_title, 'a') as report:
         report.write(f'\n{attempt_number},{guess_number},{word}')
 
-# Score each word based on letter frequencies
-def score_word(word, frequencies) -> list:
-    return sum(frequencies.get(letter, 0) for letter in word)
-
-# Automated wordle feedback for automated testing
-def wordle_feedback(guess, target) -> str:
-    feedback = ['b'] * len(guess)  # Initialize feedback with 'b' for grey
-    target_chars = list(target)  # List of target characters to help with yellow feedback
-    
-    # First pass: Check for greens
-    for i in range(len(guess)):
-        if guess[i] == target[i]:
-            feedback[i] = 'g'
-            target_chars[i] = None  # Remove the matched character
-
-    # Second pass: Check for yellows
-    for i in range(len(guess)):
-        if feedback[i] == 'b' and guess[i] in target_chars:
-            feedback[i] = 'y'
-            target_chars[target_chars.index(guess[i])] = None  # Remove the matched character
-    
-    return ''.join(feedback)
-
 def automated_testing(target, attempts, days, num_letters):
     
     print("Running automated wordle tests to evaluate model...")
     
     sum_of_guesses = 0
+    feedback_data = []
     
     for attempt in range(0, attempts + 1):
         
@@ -149,14 +128,16 @@ def automated_testing(target, attempts, days, num_letters):
 
             # Sort words by their scores and get the top five
             sorted_words = sorted(word_scores.items(), key=lambda item: item[1], reverse=True)
-            top_words = sorted_words[:5]
+            top_words = sorted_words[:TOP_LETTERS]
 
             # Update word_list for the next iteration
             word_list = filtered_word_list
 
             count += 1
             
-            guess = top_words[0][0]
+            feedback_data.append((guess, feedback))
+        
+            guess = find_best_guess_from_feedback(feedback_data, top_words)
     print(f"Model Testing Completed!\nNumber of attempts {attempts}!")
     
     # Descriptives

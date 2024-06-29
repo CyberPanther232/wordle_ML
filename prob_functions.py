@@ -117,18 +117,17 @@ def find_best_guess_from_feedback(feedback_data, potential_words):
     entropies = calculate_entropy_from_feedback(feedback_data, potential_words)
     
     max_entropies = max(entropies, key=entropies.get)
-    print(max_entropies)
-    return max_entropies
+    return max_entropies[0]
 
-# Example usage
-potential_words = ["order", "knead", "savor", "sword"]
-feedback_data = [
-    ("apple", "bbbyb"),  # 'a' is not in the word, 'p' is correct and in the right position
-    ("banjo", "bbbby"),  # 'a' is not in the word, 'n' is in the word but not in the correct position
-]
+# # Example usage
+# potential_words = ["order", "knead", "savor", "sword"]
+# feedback_data = [
+#     ("apple", "bbbyb"),  # 'a' is not in the word, 'p' is correct and in the right position
+#     ("banjo", "bbbby"),  # 'a' is not in the word, 'n' is in the word but not in the correct position
+# ]
 
-best_guess = find_best_guess_from_feedback(feedback_data, potential_words)
-print(f"Best guess based on entropy: {best_guess}")
+# best_guess = find_best_guess_from_feedback(feedback_data, potential_words)
+# print(f"Best guess based on entropy: {best_guess}")
 
 
   
