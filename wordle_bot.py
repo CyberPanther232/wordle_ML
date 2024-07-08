@@ -19,8 +19,8 @@ from datetime import datetime
 # unobscured_list = load_words('prior_wordle_list_alpha.txt')
 
 # Model Parameters
-DAYS = 150
-NUM_OF_LETTERS = 7
+DAYS = 0
+NUM_OF_LETTERS = 5
 TOP_LETTERS = 3
 POSS_SOLUTIONS_LIST = r'wordlists/smaller_wordlist.txt'
 RECENT_WORDS_LIST = r'wordlists/prior_wordle_list_chrono.txt'
@@ -77,7 +77,7 @@ def main():
 
         # Update word_list for the next iteration
         word_list = filtered_word_list
-
+        
         count += 1
         
         feedback_data.append((guess, feedback))
