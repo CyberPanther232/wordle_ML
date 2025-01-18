@@ -26,12 +26,9 @@ def load_words(wordlist_filepath) -> list:
     wordlist = []
     
     with open(wordlist_filepath, 'r') as wordfile:
-        for line in wordfile:
-            fields = line.strip('\n').split(' ')
-            
-            word = fields[0].lower()
-            
-            wordlist.append(word)
+        for word in wordfile.readlines():
+    
+            wordlist.append(word.strip())
             
     return wordlist
 

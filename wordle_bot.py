@@ -1,7 +1,7 @@
 """
 Program: wordle_bot
 Date Created: 24-Jun-2024
-Last Modified: 28-Jun-2024
+Last Modified: 18-Jan-2025
 Purpose: To provide an accurate model to help those who want to play wordle but want to take it easy
 Developer: Hunter Kinney
 """
@@ -12,6 +12,7 @@ from wordle_bot_filters import *
 from prob_functions import *
 import time
 from datetime import datetime
+import os
 
 # # Load the word list
 # word_list = load_words('smaller_wordlist.txt')
@@ -27,6 +28,9 @@ RECENT_WORDS_LIST = r'wordlists/prior_wordle_list_chrono.txt'
 
 def main():
     print("Welcome to Hunter's Wordle bot!\nI will guess a word and you provide the feedback!")
+
+    os.system('python3 update_list.py')
+
     count = 1
     
     word_list = load_words(POSS_SOLUTIONS_LIST)

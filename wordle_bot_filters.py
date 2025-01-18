@@ -47,9 +47,7 @@ def first_guess_filter(wordlist, num_of_letters) -> list:
     return random.choice(first_word_wordlist)
 
 # Filters recent solution words from previous wordle games
-def filter_recent_words(word_list, recent_list, days_passed) -> list:
-    
-    print(len(word_list))
+def filter_recent_words(word_list, recent_list, days_passed) -> list:   
     
     recent_list = recent_list # [:days_passed]
     
@@ -58,8 +56,6 @@ def filter_recent_words(word_list, recent_list, days_passed) -> list:
             word_list.remove(word)
         else:
             pass
-        
-    print(len(word_list))
         
     return word_list
 
