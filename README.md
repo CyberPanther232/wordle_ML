@@ -1,4 +1,4 @@
-![Alt text]([https://github.com/CyberPanther232/wordle_ML/Wordle_ML_logo_mini.png](https://github.com/CyberPanther232/wordle_ML/blob/749a3244b93771665c14220191010e916c9e88cb/Wordle_ML_logo_mini.png))
+![Logo](https://github.com/CyberPanther232/wordle_ML/blob/749a3244b93771665c14220191010e916c9e88cb/Wordle_ML_logo_mini.png)
 
 This is my attempt at creating a bot (script) that will help someone with Wordle!
 
